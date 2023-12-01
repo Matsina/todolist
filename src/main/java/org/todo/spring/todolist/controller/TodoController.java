@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 @RestController
 public class TodoController {
 
+    // Appel de mon objet Logger pour mes différents besoins de log dans mes routes
+    private static final Logger log = LoggerFactory.getLogger(TasksRepository.class);
+
     // Appel du repo de mon model Tasks
     private TasksRepository repo;
 
@@ -30,9 +33,6 @@ public class TodoController {
         this.repo = repo;
         log.info("Ctr TasksRepository");
     }
-
-    // Appel de mon objet Logger pour mes différents besoins de log dans mes routes
-    private static final Logger log = LoggerFactory.getLogger(TasksRepository.class);
 
     /**
      * Route GET pour fetch toutes mes tasks
@@ -103,7 +103,7 @@ public class TodoController {
                 repo.deleteById(id);
                 return new ResponseEntity<>("Tâche supprimée ! \\(°Ω°)/", HttpStatus.OK);
             } else {
-                // Si elle n'existe pas (isPresent a renvoyé false), je renvoi un 404
+                // Si elle n'existe pas (isPresent a renvoyé false), je renvoie un 404
                 return new ResponseEntity<>("La tâche n'existe pas ! ¯\\(°_o)/¯", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
