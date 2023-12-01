@@ -1,5 +1,6 @@
 package org.todo.spring.todolist.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +22,9 @@ import org.slf4j.LoggerFactory;
 @RestController
 public class TodoController {
 
-    // Appel de mon repo de mon model Tasks
+    // Appel du repo de mon model Tasks
     private TasksRepository repo;
-    
+
     // Constructeur
     public TodoController(TasksRepository repo) {
         this.repo = repo;
@@ -35,7 +36,8 @@ public class TodoController {
 
     /**
      * Route GET pour fetch toutes mes tasks
-     * @return Renvoi de toutes mes tasks
+     * 
+     * @return ResponseEntity avec le json de toutes mes tasks, et code 200
      */
     @GetMapping("/tasks")
     public ResponseEntity<List<Tasks>> getAllTasks() {
@@ -51,15 +53,16 @@ public class TodoController {
         } catch (Exception e) {
             // Log et renvoi d'une erreur avec code 500 si problème
             log.error("Une erreur s'est produite lors de la récupération des tâches : ", e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    
     /**
      * Route POST pour enregistrer une nouvelle task
-     * @param 
-     * @return Renvoi de toutes mes tasks
+     * 
+     * @param taskIn La task envoyée par le client
+     * @return ResponseEntity avec une string indiquant la création de la tâche, et
+     *         code 201
      */
     @PostMapping("/newtask")
     public ResponseEntity<String> postNewTask(@RequestBody Tasks taskIn) {
@@ -82,6 +85,13 @@ public class TodoController {
         }
     }
 
+    /**
+     * Route DELETE pour supprimer une task
+     * 
+     * @param id L'ID de la task à supprimer
+     * @return ResponseEntity avec une string indiquant la suppression de la tâche,
+     *         et code 200
+     */
     @DeleteMapping("/task/{id}")
     public ResponseEntity<String> deleteTasks(@PathVariable Long id) {
         try {
@@ -104,6 +114,13 @@ public class TodoController {
         }
     }
 
+    /**
+     * Route PATCH pour terminer une task
+     * 
+     * @param id L'ID de la task que l'on souhaite mettre en status terminé
+     * @return ResponseEntity avec une string indiquant l'id de la task mis à jour,
+     *         et code 200
+     */
     @PatchMapping("/task/{id}")
     public ResponseEntity<String> updateTasks(@PathVariable Long id) {
         try {
