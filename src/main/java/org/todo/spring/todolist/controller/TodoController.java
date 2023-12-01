@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -115,13 +115,13 @@ public class TodoController {
     }
 
     /**
-     * Route PATCH pour terminer une task
+     * Route PUT pour terminer une task
      * 
      * @param id L'ID de la task que l'on souhaite mettre en status terminé
      * @return ResponseEntity avec une string indiquant l'id de la task mis à jour,
      *         et code 200
      */
-    @PatchMapping("/task/{id}")
+    @PutMapping("/task/{id}")
     public ResponseEntity<String> updateTasks(@PathVariable Long id) {
         try {
             // Je cherche la task selon son id
